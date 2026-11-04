@@ -60,5 +60,7 @@ public class Especiality {
 	    orphanRemoval = true
 	)
 	private List<Information> informations = new ArrayList<>();
+
+	
 	
 }

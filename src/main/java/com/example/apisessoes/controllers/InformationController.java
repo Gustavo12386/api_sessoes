@@ -11,22 +11,35 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.apisessoes.dto.InformationDTO;
+import com.example.apisessoes.dto.patient.PatientRegisterRequest;
+import com.example.apisessoes.dto.patient.PatientResponse;
 import com.example.apisessoes.entities.Information;
 import com.example.apisessoes.services.InformationService;
+
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
 
 @RestController
 @RequestMapping(value = "/information")
+@RequiredArgsConstructor
 public class InformationController {
 	
 	@Autowired	
 	private InformationService service_information;	
 	
-	@PostMapping
-	  public ResponseEntity<Information> criarProduto(@RequestBody InformationDTO dto) {
-		Information novoProduto = service_information.save(dto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(novoProduto);
+	@PostMapping("/register")
+    public ResponseEntity<PatientResponse> register(
+            @Valid
+            @RequestBody
+            PatientRegisterRequest request) {
+
+        PatientResponse response =
+        		service_information.register(request);
+
+        return ResponseEntity
+            .status(HttpStatus.CREATED)
+            .body(response);
     }
 	
 	 @GetMapping

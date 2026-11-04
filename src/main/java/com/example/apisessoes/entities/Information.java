@@ -34,11 +34,9 @@ public class Information {
 	private String name;	
 	private String phone;	 
 	private String email;
+	private String password;
 	private LocalDate date_birth;
 	private LocalDate date_scheduled;
-	private String hour;
-	private String question1;
-	private String question2;
-	private String question3;
+	private String hour;	
 	
 }
