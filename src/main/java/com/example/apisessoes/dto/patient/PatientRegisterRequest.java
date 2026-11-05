@@ -1,6 +1,7 @@
 package com.example.apisessoes.dto.patient;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.UUID;
 
 import jakarta.validation.constraints.Email;
@@ -31,6 +32,6 @@ public record PatientRegisterRequest(
 
 	    LocalDate date_scheduled,
 
-	    LocalDate hour) {
+	    LocalTime hour) {
 
 }

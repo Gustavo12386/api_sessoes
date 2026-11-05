@@ -1,7 +1,5 @@
 package com.example.apisessoes.config;
 
-import javax.crypto.SecretKey;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -16,11 +14,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import javax.crypto.SecretKey;
+
 import org.springframework.security.oauth2.jwt.JwtDecoder;
-import org.springframework.security.oauth2.jwt.JwtEncoder;
+
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
-import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
+
 import com.nimbusds.jose.jwk.source.ImmutableSecret;
 
 import lombok.RequiredArgsConstructor;
@@ -80,14 +78,13 @@ public class SecurityConfig {
 	     return configuration.getAuthenticationManager();
 	  }
 	  
-	  // ⚙️ Bean do JwtEncoder (Injetado com sucesso no seu AuthService)
+	  
 	    @Bean
 	    public JwtEncoder jwtEncoder() {
-	        // Envia os bytes da chave secreta gerada usando a classe correta
+	        
 	        return new NimbusJwtEncoder(new ImmutableSecret<>(jwtSecretKey.getEncoded()));
 	    }
 
-	    // ⚙️ Bean do JwtDecoder (Utilizado pelo Resource Server para validar as requisições protegidas)
 	    @Bean
 	    public JwtDecoder jwtDecoder() {
 	        return NimbusJwtDecoder.withSecretKey(jwtSecretKey).build();

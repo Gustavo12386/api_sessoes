@@ -86,7 +86,7 @@ public class InformationService {
 	            patient.getDate_birth(),
 	            patient.getDate_scheduled(),
 	            patient.getHour(),
-	            patient.getEspeciality().getEspecialization_id()
+	            patient.getEspeciality().getEspecializationId()
 	        );
 	    }
 	

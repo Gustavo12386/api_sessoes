@@ -1,6 +1,7 @@
 package com.example.apisessoes.dto.patient;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.UUID;
 
 public record PatientResponse( 
@@ -10,7 +11,7 @@ public record PatientResponse(
 	    String email,
 	    LocalDate date_birth,
 	    LocalDate date_scheduled,
-	    LocalDate hour,
+	    LocalTime hour,
 	    UUID especialityId) {
 
 }

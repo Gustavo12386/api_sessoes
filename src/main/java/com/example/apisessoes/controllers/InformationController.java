@@ -21,7 +21,7 @@ import lombok.RequiredArgsConstructor;
 
 
 @RestController
-@RequestMapping(value = "/information")
+@RequestMapping(value = "/patients")
 @RequiredArgsConstructor
 public class InformationController {
 	

@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import org.hibernate.annotations.ColumnDefault;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
@@ -33,8 +35,13 @@ import lombok.Setter;
 @Table(name = "tb_dates")
 public class Date {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private UUID date_id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(
+        name = "date_id",
+        columnDefinition = "UUID"
+    )
+    @ColumnDefault("gen_random_uuid()")
+	private UUID dateId;
 	@Column(name = "date_value")
 	private LocalDate current_date;	
 	
