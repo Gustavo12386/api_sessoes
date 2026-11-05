@@ -29,6 +29,9 @@ public record PatientRegisterRequest(
 
 	    @NotNull
 	    UUID especialityId,
+	    
+	    @NotBlank
+	    String especiality_name,
 
 	    LocalDate date_scheduled,
 

@@ -39,6 +39,7 @@ public class Information {
 	@ManyToOne
 	@JoinColumn(name = "especialization_id", referencedColumnName = "especialization_id")
 	private Especiality especiality;
+	private String especiality_name;
 	private String name;	
 	private String phone;	 
 	private String email;

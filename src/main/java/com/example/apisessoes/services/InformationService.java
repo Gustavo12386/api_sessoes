@@ -80,6 +80,7 @@ public class InformationService {
 
 	        return new PatientResponse(
 	            patient.getId(),
+	            patient.getEspeciality_name(),
 	            patient.getName(),
 	            patient.getPhone(),
 	            patient.getEmail(),
