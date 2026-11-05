@@ -19,7 +19,5 @@ public class DateService {
         return repos.findAll();
     }
 	
-	public List<Date> getDateById(UUID dateId) {       
-        return repos.findByUsuarioId(dateId);
-    }
+	
 }

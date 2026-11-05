@@ -10,7 +10,7 @@ public record PatientResponse(
 	    String email,
 	    LocalDate date_birth,
 	    LocalDate date_scheduled,
-	    String hour,
+	    LocalDate hour,
 	    UUID especialityId) {
 
 }

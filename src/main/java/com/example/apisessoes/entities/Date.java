@@ -9,6 +9,7 @@ import java.util.UUID;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -32,13 +33,14 @@ import lombok.Setter;
 @Table(name = "tb_dates")
 public class Date {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private UUID date_id;
+	@Column(name = "date_value")
 	private LocalDate current_date;	
 	
 	@ManyToOne
 	@JoinColumn(name = "especialization_id", referencedColumnName = "especialization_id")
-	private Especiality especialities;
+	private Especiality especiality;
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "date", cascade = CascadeType.ALL, orphanRemoval = true)

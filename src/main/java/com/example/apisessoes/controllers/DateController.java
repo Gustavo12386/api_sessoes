@@ -26,9 +26,5 @@ public class DateController {
 	       return ResponseEntity.ok(list);
 	}
 	
-	 @GetMapping("/{dateId}")
-	 public ResponseEntity<List<Date>> listarPorUsuario(@PathVariable UUID dateId) {
-	        List<Date> dates = service_date.getDateById(dateId);
-	        return ResponseEntity.ok(dates);
-	 }
+	 
 }

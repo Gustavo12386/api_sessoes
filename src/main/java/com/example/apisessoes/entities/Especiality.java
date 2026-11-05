@@ -12,8 +12,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -31,7 +30,7 @@ import lombok.Setter;
 @Table(name = "tb_especialization")
 public class Especiality {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private UUID especialization_id;
 	private String especializationName;	
 
@@ -43,24 +42,6 @@ public class Especiality {
 	    orphanRemoval = true
 	)
 	private List<Date> date = new ArrayList<>();
-	
-	
-	@JsonIgnore
-	@OneToMany(
-	    mappedBy = "especiality",
-	    cascade = CascadeType.ALL,
-	    orphanRemoval = true
-	)
-	private List<Hour> hour = new ArrayList<>();
-	
-	@JsonIgnore
-	@OneToMany(
-	    mappedBy = "especiality",
-	    cascade = CascadeType.ALL,
-	    orphanRemoval = true
-	)
-	private List<Information> informations = new ArrayList<>();
-
 	
 	
 }

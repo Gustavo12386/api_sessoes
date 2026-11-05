@@ -31,6 +31,6 @@ public record PatientRegisterRequest(
 
 	    LocalDate date_scheduled,
 
-	    String hour) {
+	    LocalDate hour) {
 
 }
