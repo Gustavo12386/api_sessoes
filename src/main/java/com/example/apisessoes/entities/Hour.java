@@ -35,9 +35,10 @@ public class Hour {
         columnDefinition = "UUID"
     )
     @ColumnDefault("gen_random_uuid()")
-	private UUID hour_id;
+	private UUID hourId;
 	
-	private LocalTime current_hour;	
+	@Column(name = "current_hour")
+    private LocalTime currentHour;
 	
 	@ManyToOne
 	@JoinColumn(name = "date_id", referencedColumnName = "date_id")

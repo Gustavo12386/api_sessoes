@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,18 +14,23 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.apisessoes.entities.Date;
 import com.example.apisessoes.services.DateService;
 
+import lombok.RequiredArgsConstructor;
+
 @RestController
-@RequestMapping(value = "/date")
+@RequestMapping("/especialities")
+@RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:5173")
 public class DateController {
 	
 	@Autowired	
-	private DateService service_date;	
+	private DateService service;	
 	
-	@GetMapping
-	private ResponseEntity<List<Date>> getDate(){
-	       List<Date> list = service_date.getAllDates();
-	       return ResponseEntity.ok(list);
-	}
+	@GetMapping("/{especialityId}/dates")
+    public List<Date> getDates(
+        @PathVariable UUID especialityId
+    ) {
+        return service.getDatesByEspeciality(especialityId);
+    }
 	
 	 
 }

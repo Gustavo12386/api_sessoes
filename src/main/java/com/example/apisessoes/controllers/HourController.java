@@ -1,25 +1,34 @@
 package com.example.apisessoes.controllers;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.apisessoes.entities.Hour;
 import com.example.apisessoes.services.HourService;
 
+import lombok.RequiredArgsConstructor;
+
 @RestController
-@RequestMapping(value = "/hour")
+@RequestMapping("/especialities")
+@RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:5173")
 public class HourController {
 	@Autowired	
-	private HourService service_hour;	
+	private HourService service;	
 	
-	@GetMapping
-	 private ResponseEntity<List<Hour >> getHour(){
-	       List<Hour> list = service_hour.getAllHours();
-	       return ResponseEntity.ok(list);
-	 }
+	 @GetMapping("/{especialityId}/dates/{dateId}/hours")
+	    public List<Hour> getHours(
+	        @PathVariable UUID especialityId,
+	        @PathVariable UUID dateId
+	    ) {
+	        return service.getHoursByDate(especialityId, dateId);
+	    }
 }

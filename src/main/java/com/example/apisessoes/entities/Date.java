@@ -43,7 +43,7 @@ public class Date {
     @ColumnDefault("gen_random_uuid()")
 	private UUID dateId;
 	@Column(name = "date_value")
-	private LocalDate current_date;	
+	private LocalDate currentDate;	
 	
 	@ManyToOne
 	@JoinColumn(name = "especialization_id", referencedColumnName = "especialization_id")
