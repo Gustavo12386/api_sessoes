@@ -33,79 +33,46 @@ public class InformationService {
 	
 	@Autowired	
 	private PasswordEncoder passwordEncoder;
-	
+		
 	@Autowired
-	private DateRepository repository_date;
-	
-	@Autowired
-	private HourRepository repository_hour;
+	private AppointmentService appointmentService;
 	
 	
     public Information register(
             PatientRegisterRequest request) {
+    	   Especiality especiality =
+    			   repository_especialization.findById(request.especialityId())
+    	                .orElseThrow(() ->
+    	                    new RuntimeException(
+    	                        "Especialidade não encontrada!"
+    	                    )
+    	                );
 
-        if (repository_information.existsByEmail(
-                request.email())) {
+    	        Information patient = new Information();
 
-            throw new ResponseStatusException(
-                HttpStatus.CONFLICT,
-                "E-mail já cadastrado"
-            );
-        }
+    	        patient.setEspeciality(especiality);
+    	        patient.setEspeciality_name(
+    	            especiality.getEspecializationName()
+    	        );
 
-        Especiality especiality =
-	            repository_especialization.findById(request.especialityId())
-	                .orElseThrow(() ->
-	                    new RuntimeException("Especialidade não encontrada!")
-	                );
+    	        patient.setName(request.name());
+    	        patient.setPhone(request.phone());
+    	        patient.setEmail(request.email());
+    	        patient.setPassword(
+    	                passwordEncoder.encode(request.password())
+    	        );
+    	        patient.setDate_birth(request.date_birth());    	       
 
-	    
-	        Date date = repository_date
-	            .findByEspeciality_EspecializationIdAndCurrentDate(
-	            		request.especialityId(),
-	            		request.date_scheduled()
-	            )
-	            .orElseThrow(() ->
-	                new RuntimeException(
-	                    "Data não disponível para esta especialidade!"
-	                )
-	            );
+    	        Information savedPatient =
+    	        		repository_information.save(patient);
 
-	   
-	        boolean validHour = repository_hour
-	            .findByDate_DateId(date.getDateId())
-	            .stream()
-	            .anyMatch(hour ->
-	                hour.getCurrentHour().equals(request.hour())
-	            );
+    	        appointmentService.saveAppointments(
+    	            savedPatient,
+    	            request.especialityId(),
+    	            request.appointments()
+    	        );
 
-	        if (!validHour) {
-	            throw new RuntimeException(
-	                "Horário não disponível para esta data!"
-	            );
-	        }
-
-        Information patient = new Information();
-
-        patient.setName(request.name());
-        patient.setEspeciality_name(
-	            especiality.getEspecializationName()
-	        );
-
-        patient.setPhone(request.phone());
-        patient.setEmail(request.email());
-
-        patient.setPassword(
-            passwordEncoder.encode(request.password())
-        );
-
-        patient.setDate_birth(request.date_birth());
-        patient.setEspeciality(especiality);
-        patient.setDate_scheduled(request.date_scheduled());
-        patient.setHour(request.hour());
-
-
-        return repository_information.save(patient);
+    	        return savedPatient;
     }
 	
 	

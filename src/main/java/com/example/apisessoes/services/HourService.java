@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 
 import com.example.apisessoes.entities.Hour;
 import com.example.apisessoes.repositories.HourRepository;
+import com.example.apisessoes.repositories.AppointmentRepository;
 import com.example.apisessoes.repositories.DateRepository;
-import com.example.apisessoes.repositories.InformationRepository;
 import com.example.apisessoes.entities.Date;
 
 @Service
@@ -21,7 +21,7 @@ public class HourService {
 	private DateRepository dateRepository;
 	
 	@Autowired
-	private InformationRepository informationRepository;
+	private AppointmentRepository appointmentRepository;
 	
 	public List<Hour> getAllHours() {
         return repos.findAll();
@@ -43,14 +43,12 @@ public class HourService {
 	        }
 
 	        return repos.findByDate_DateId(dateId)
-	            .stream()
-	            .filter(hour ->
-	                !informationRepository.existsScheduledAppointment(
-	                    especialityId,
-	                    date.getCurrentDate(),
-	                    hour.getCurrentHour()
+	                .stream()
+	                .filter(hour ->
+	                    !appointmentRepository.existsByHour_HourId(
+	                        hour.getHourId()
+	                    )
 	                )
-	            )
-	            .toList();
+	                .toList();
 	    }
 }

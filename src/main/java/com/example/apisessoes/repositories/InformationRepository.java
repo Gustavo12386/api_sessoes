@@ -14,17 +14,5 @@ import com.example.apisessoes.entities.Information;
 
 public interface InformationRepository extends JpaRepository<Information, UUID> {
 	 Optional<Information> findByEmail(String email);
-     boolean existsByEmail(String email);
-     @Query("""
- 	        SELECT CASE WHEN COUNT(i) > 0 THEN true ELSE false END
- 	        FROM Information i
- 	        WHERE i.especiality.especializationId = :especialityId
- 	        AND i.date_scheduled = :date
- 	        AND i.hour = :hour
- 	    """)
- 	    boolean existsScheduledAppointment(
- 	        @Param("especialityId") UUID especialityId,
- 	        @Param("date") LocalDate date,
- 	        @Param("hour") LocalTime hour
- 	    );
+     boolean existsByEmail(String email);     
 }

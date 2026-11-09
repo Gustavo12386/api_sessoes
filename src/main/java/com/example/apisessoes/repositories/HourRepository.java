@@ -10,4 +10,5 @@ import com.example.apisessoes.entities.Hour;
 
 public interface HourRepository extends JpaRepository<Hour, UUID> {
 	List<Hour> findByDate_DateId(UUID dateId);
+	
 }

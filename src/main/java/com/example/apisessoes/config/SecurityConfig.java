@@ -1,5 +1,7 @@
 package com.example.apisessoes.config;
 
+import com.example.apisessoes.config.CorsConfig;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -14,7 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-
+import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
@@ -28,6 +30,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SecurityConfig {
 	
+	private final CorsConfigurationSource corsConfigurationSource;
+	
 	 private final javax.crypto.SecretKey jwtSecretKey = 
 		        new javax.crypto.spec.SecretKeySpec(
 		            "sua-chave-secreta-estavel-com-pelo-menos-32-caracteres".getBytes(), 
@@ -39,6 +43,8 @@ public class SecurityConfig {
 	            HttpSecurity http) throws Exception {
 
 	        http
+	            .cors(cors -> cors.configurationSource(corsConfigurationSource))
+
 	            .csrf(csrf -> csrf.disable())
 
 	            .sessionManagement(session ->
@@ -48,6 +54,18 @@ public class SecurityConfig {
 	            )
 
 	            .authorizeHttpRequests(auth -> auth
+
+	                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+
+	                .requestMatchers(
+	                    HttpMethod.GET,
+	                    "/especialities/**"
+	                ).permitAll()
+
+	                .requestMatchers(
+	                    HttpMethod.POST,
+	                    "/patient/registersessions"
+	                ).permitAll()
 
 	                .requestMatchers(
 	                    HttpMethod.POST,
@@ -64,7 +82,7 @@ public class SecurityConfig {
 
 	        return http.build();
 	    }
-	 
+	
 	 @Bean
 	 public PasswordEncoder passwordEncoder() {
 	    return new BCryptPasswordEncoder();
@@ -89,4 +107,6 @@ public class SecurityConfig {
 	    public JwtDecoder jwtDecoder() {
 	        return NimbusJwtDecoder.withSecretKey(jwtSecretKey).build();
 	    }
+	    
+	  
 }

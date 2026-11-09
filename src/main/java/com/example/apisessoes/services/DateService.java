@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.apisessoes.entities.Date;
+import com.example.apisessoes.repositories.AppointmentRepository;
 import com.example.apisessoes.repositories.DateRepository;
 import com.example.apisessoes.repositories.HourRepository;
 import com.example.apisessoes.repositories.InformationRepository;
@@ -19,7 +20,7 @@ public class DateService {
 	@Autowired
 	private HourRepository hourRepository;
 	@Autowired
-    private InformationRepository informationRepository;
+	private AppointmentRepository appointmentRepository;
 	
 	public List<Date> getAllDates() {
         return dateRepository.findAll();
@@ -31,17 +32,16 @@ public class DateService {
 	            dateRepository.findByEspeciality_EspecializationId(especialityId);
 
 	        return dates.stream()
-	            .filter(date ->
-	                hourRepository.findByDate_DateId(date.getDateId())
-	                    .stream()
-	                    .anyMatch(hour ->
-	                        !informationRepository.existsScheduledAppointment(
-	                            especialityId,
-	                            date.getCurrentDate(),
-	                            hour.getCurrentHour()
+	                .filter(date ->
+	                    hourRepository.findByDate_DateId(date.getDateId())
+	                        .stream()
+	                        .anyMatch(hour ->
+	                            !appointmentRepository.existsScheduledAppointment(
+	                                date.getCurrentDate(),
+	                                hour.getCurrentHour()
+	                            )
 	                        )
-	                    )
-	            )
+	                )
 	            .toList();
 	    }
 	
