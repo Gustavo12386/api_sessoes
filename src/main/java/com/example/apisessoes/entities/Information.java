@@ -3,11 +3,13 @@ package com.example.apisessoes.entities;
 import java.time.LocalDate;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
 import org.hibernate.annotations.ColumnDefault;
-
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -24,6 +26,8 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import jakarta.persistence.Access;
+import jakarta.persistence.AccessType;
 
 @Entity
 @Getter
@@ -32,7 +36,9 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "tb_information_patient")
-public class Information {
+@Access(AccessType.FIELD)
+public class Information{
+	
 	@Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(

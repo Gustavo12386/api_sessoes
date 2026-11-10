@@ -1,5 +1,7 @@
 package com.example.apisessoes.services.security;
 
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,26 +17,26 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class PatientUserDetailsService implements UserDetailsService {
-    
-	 @Autowired
-	 private InformationRepository repository;
+	
+	@Autowired
+    private InformationRepository informationRepository;
+	
+	@Override
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+		Information patient = informationRepository
+                .findByEmail(email)
+                .orElseThrow(() ->
+                    new UsernameNotFoundException(
+                        "Paciente não encontrado!"
+                    )
+                );
 
-	 @Override
-	 public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-		 Information patient = repository
-		            .findByEmail(email)
-		            .orElseThrow(() ->
-		                new UsernameNotFoundException(
-		                    "Paciente não encontrado"
-		                )
-		            );
+        return User.builder()
+                .username(patient.getEmail())
+                .password(patient.getPassword())
+                .roles("PATIENT")
+                .build();
 
-		        return User.builder()
-		            .username(patient.getEmail())
-		            .password(patient.getPassword())
-		            .roles("PATIENT")
-		            .build();
-	 }
-	 
-	 
+	}
+
 }

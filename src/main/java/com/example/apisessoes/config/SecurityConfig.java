@@ -1,7 +1,12 @@
 package com.example.apisessoes.config;
 
-import com.example.apisessoes.config.CorsConfig;
+import java.util.Base64;
+
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -17,6 +22,7 @@ import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
@@ -30,13 +36,28 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SecurityConfig {
 	
-	private final CorsConfigurationSource corsConfigurationSource;
+	@Autowired
+	private CorsConfigurationSource corsConfigurationSource;
 	
-	 private final javax.crypto.SecretKey jwtSecretKey = 
-		        new javax.crypto.spec.SecretKeySpec(
-		            "sua-chave-secreta-estavel-com-pelo-menos-32-caracteres".getBytes(), 
-		            "HmacSHA256"
-		        );
+	@Value("${api.security.token.secret}")
+	private String secret;	
+	
+
+    @Bean
+    public SecretKey jwtSecretKey() {
+    	 byte[] keyBytes = Base64.getUrlDecoder().decode(secret);
+
+    	    if (keyBytes.length < 32) {
+    	        throw new IllegalArgumentException(
+    	            "A chave JWT precisa ter pelo menos 32 bytes."
+    	        );
+    	    }
+
+    	    return new SecretKeySpec(
+    	        keyBytes,
+    	        "HmacSHA256"
+    	    );
+    }
 	
 	 @Bean
 	    public SecurityFilterChain securityFilterChain(
@@ -97,15 +118,21 @@ public class SecurityConfig {
 	  }
 	  
 	  
-	    @Bean
-	    public JwtEncoder jwtEncoder() {
-	        
-	        return new NimbusJwtEncoder(new ImmutableSecret<>(jwtSecretKey.getEncoded()));
+	  @Bean
+	    public JwtEncoder jwtEncoder(SecretKey secretKey) {
+
+	        return new NimbusJwtEncoder(
+	            new ImmutableSecret<>(secretKey)
+	        );
 	    }
 
 	    @Bean
-	    public JwtDecoder jwtDecoder() {
-	        return NimbusJwtDecoder.withSecretKey(jwtSecretKey).build();
+	    public JwtDecoder jwtDecoder(SecretKey secretKey) {
+
+	        return NimbusJwtDecoder
+	            .withSecretKey(secretKey)
+	            .macAlgorithm(MacAlgorithm.HS256)
+	            .build();
 	    }
 	    
 	  
