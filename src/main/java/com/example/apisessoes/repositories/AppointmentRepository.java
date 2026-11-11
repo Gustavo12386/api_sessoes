@@ -12,7 +12,7 @@ import com.example.apisessoes.entities.Appointment;
 public interface AppointmentRepository extends JpaRepository<Appointment, UUID> {
 	 boolean existsByHour_HourId(UUID hourId);
 
-	    List<Appointment> findByPatient_Id(UUID patientId);
+	 List<Appointment> findByPatient_Id(UUID patientId);
 	 List<Appointment> findByDate_DateId(UUID dateId);
 	 @Query("""
 		        SELECT CASE WHEN COUNT(a) > 0 THEN true ELSE false END
@@ -24,4 +24,5 @@ public interface AppointmentRepository extends JpaRepository<Appointment, UUID> 
 		        @Param("date") LocalDate date,
 		        @Param("hour") LocalTime hour
 		    );
+	 List<Appointment> findByPatient_Email(String email);
 }

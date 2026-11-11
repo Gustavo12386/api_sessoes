@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.apisessoes.dto.patient.AppointmentDTO;
+import com.example.apisessoes.dto.patient.AppointmentResponse;
 import com.example.apisessoes.entities.Appointment;
 import com.example.apisessoes.entities.Date;
 import com.example.apisessoes.entities.Hour;
@@ -96,5 +97,18 @@ public class AppointmentService {
 
 	        return appointmentRepository.saveAll(appointments);
 	    }
+	 
+	 public List<AppointmentResponse> getAppointmentsByPatient(
+		        String email) {
+
+		    return appointmentRepository.findByPatient_Email(email)
+		        .stream()
+		        .map(appointment -> new AppointmentResponse(
+		            appointment.getAppointmentId(),
+		            appointment.getDate_scheduled(),
+		            appointment.getScheduled_hour()
+		        ))
+		        .toList();
+		}
 
 }

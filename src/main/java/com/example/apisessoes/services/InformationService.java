@@ -2,23 +2,20 @@ package com.example.apisessoes.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import org.springframework.web.server.ResponseStatusException;
 
+import com.example.apisessoes.dto.patient.PatientMeResponse;
 import com.example.apisessoes.dto.patient.PatientRegisterRequest;
 
 import com.example.apisessoes.entities.Especiality;
 import com.example.apisessoes.entities.Information;
 import com.example.apisessoes.repositories.EspecialityRepository;
 import com.example.apisessoes.repositories.InformationRepository;
-import com.example.apisessoes.entities.Date;
-import com.example.apisessoes.repositories.DateRepository;
-import com.example.apisessoes.repositories.HourRepository;
+
 
 import lombok.RequiredArgsConstructor;
 
@@ -77,14 +74,29 @@ public class InformationService {
 
     	        return savedPatient;
     }
-	
-	
+		
 	
 	public List<Information> getAllInformations() {
         return repository_information.findAll();
     }
 
 
+	 public PatientMeResponse getPatientByEmail(String email) {
 
+		 Information patient = repository_information.findByEmail(email)
+			        .orElseThrow(() -> new ResponseStatusException(
+			            HttpStatus.NOT_FOUND,
+			            "Paciente não encontrado!"
+			        ));
+
+	        return new PatientMeResponse(
+	            patient.getId(),
+	            patient.getName(),
+	            patient.getEmail(),
+	            patient.getPhone(),
+	            patient.getDate_birth(),
+	            patient.getEspeciality_name()
+	        );
+	    }
 
 }

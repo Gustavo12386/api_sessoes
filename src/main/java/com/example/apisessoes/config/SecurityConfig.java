@@ -89,11 +89,10 @@ public class SecurityConfig {
 	                ).permitAll()
 
 	                .requestMatchers(
-	                    HttpMethod.POST,
-	                    "/patients/register",
+	                    HttpMethod.POST,	                   
 	                    "/auth/login"
 	                ).permitAll()
-
+	                .requestMatchers("/patient/me").authenticated()
 	                .anyRequest().authenticated()
 	            )
 
