@@ -1,11 +1,14 @@
 package com.example.apisessoes.controllers;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -49,5 +52,17 @@ public class PatientController {
             appointmentService.getAppointmentsByPatient(email);
 
         return ResponseEntity.ok(appointments);
+    }
+    
+    @DeleteMapping("/appointments/{id}")
+    public ResponseEntity<Void> deleteAppointment(
+            @PathVariable UUID id,
+            Authentication authentication) {
+
+        String email = authentication.getName();
+
+        appointmentService.deleteAppointment(id, email);
+
+        return ResponseEntity.noContent().build();
     }
 }

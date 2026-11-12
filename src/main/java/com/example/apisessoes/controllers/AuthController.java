@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.apisessoes.dto.auth.LoginRequest;
 import com.example.apisessoes.dto.auth.LoginResponse;
-
+import com.example.apisessoes.dto.patient.ForgotPasswordRequest;
+import com.example.apisessoes.dto.patient.ForgotPasswordResponse;
+import com.example.apisessoes.dto.patient.ResetPasswordRequest;
 import com.example.apisessoes.services.AuthService;
 
 
@@ -44,5 +46,24 @@ public class AuthController {
 	            "Paciente autenticado com sucesso!"
 	        );
 	    }
+	   
+	   @PostMapping("/forgot-password")
+	   public ResponseEntity<ForgotPasswordResponse> forgotPassword(
+	           @RequestBody @Valid ForgotPasswordRequest request) {
+
+	       ForgotPasswordResponse response =
+	           authService.findPatientForRecovery(request.email());
+
+	       return ResponseEntity.ok(response);
+	   }
+
+	   @PostMapping("/reset-password")
+	   public ResponseEntity<Void> resetPassword(
+	           @RequestBody @Valid ResetPasswordRequest request) {
+
+	       authService.resetPassword(request);
+
+	       return ResponseEntity.noContent().build();
+	   }
 
 }

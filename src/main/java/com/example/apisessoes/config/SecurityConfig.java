@@ -82,16 +82,22 @@ public class SecurityConfig {
 	                    HttpMethod.GET,
 	                    "/especialities/**"
 	                ).permitAll()
-
 	                .requestMatchers(
 	                    HttpMethod.POST,
 	                    "/patient/registersessions"
 	                ).permitAll()
-
 	                .requestMatchers(
 	                    HttpMethod.POST,	                   
 	                    "/auth/login"
 	                ).permitAll()
+	                .requestMatchers(
+		              HttpMethod.POST,	                   
+		                "/auth/forgot-password"
+		            ).permitAll()
+	                .requestMatchers(
+	  		            HttpMethod.POST,	                   
+	  		            "/auth/reset-password"
+	  		        ).permitAll()
 	                .requestMatchers("/patient/me").authenticated()
 	                .anyRequest().authenticated()
 	            )

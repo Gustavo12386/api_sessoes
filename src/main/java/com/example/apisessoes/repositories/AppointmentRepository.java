@@ -2,6 +2,7 @@ package com.example.apisessoes.repositories;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -25,4 +26,8 @@ public interface AppointmentRepository extends JpaRepository<Appointment, UUID> 
 		        @Param("hour") LocalTime hour
 		    );
 	 List<Appointment> findByPatient_Email(String email);
+	 Optional<Appointment> findByAppointmentIdAndPatient_Email(
+			    UUID appointmentId,
+			    String email
+			);
 }
