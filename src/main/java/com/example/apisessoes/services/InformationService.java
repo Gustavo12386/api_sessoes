@@ -20,6 +20,7 @@ import com.example.apisessoes.repositories.InformationRepository;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -98,5 +99,16 @@ public class InformationService {
 	            patient.getEspeciality_name()
 	        );
 	    }
+	 
+	 public String getPatientName(UUID informationId) {
+
+		    Information information = repository_information
+		        .findById(informationId)
+		        .orElseThrow(() ->
+		            new RuntimeException("Paciente não encontrado.")
+		        );
+
+		    return information.getName();
+		}
 
 }

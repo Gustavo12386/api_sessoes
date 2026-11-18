@@ -1,6 +1,7 @@
 package com.example.apisessoes.controllers;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -43,5 +44,10 @@ public class PaymentController {
 	            paymentService.getConsultationAmount()
 	        );
 	}
+	 
+	 @GetMapping
+	 public ResponseEntity<List<PaymentResponse>> getAllPayments() {
+	     return ResponseEntity.ok(paymentService.findAllPayments());
+	 }  
 	 
 }

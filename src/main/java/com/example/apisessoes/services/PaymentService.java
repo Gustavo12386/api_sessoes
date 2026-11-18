@@ -347,4 +347,21 @@ public class PaymentService {
            payment.getStatus()
        );
    }
+	
+	public List<PaymentResponse> findAllPayments() {
+
+		 return paymentRepository.findAllWithPatient()
+			        .stream()
+			        .map(payment -> new PaymentResponse(
+			            payment.getId(),
+			            payment.getPreferenceId(),
+			            payment.getInformation().getName(),
+			            null,
+			            payment.getOriginalAmount(),
+			            payment.getDiscountAmount(),
+			            payment.getFinalAmount(),
+			            payment.getStatus()
+			        ))
+			        .toList();
+	}	
 }

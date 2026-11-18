@@ -76,43 +76,62 @@ public class SecurityConfig {
 
 	            .authorizeHttpRequests(auth -> auth
 
-	                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+	            	    .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
-	                .requestMatchers(
-	                    HttpMethod.GET,
-	                    "/especialities/**"
-	                ).permitAll()
-	                .requestMatchers(
-			                HttpMethod.GET,
-			               "/coupons/validate/{couponCode}")
-	                .permitAll()
-	                .requestMatchers(
-	                    HttpMethod.POST,
-	                    "/patient/registersessions"
-	                ).permitAll()
-	                .requestMatchers(
-		                HttpMethod.POST,
-		               "/payments/checkout")
-	                .permitAll()
-	                .requestMatchers(
-			                HttpMethod.POST,
-			               "/webhooks/mercadopago")
-	                .permitAll()	               
-	                .requestMatchers(
-	                    HttpMethod.POST,	                   
-	                    "/auth/login"
-	                ).permitAll()
-	                .requestMatchers(
-		              HttpMethod.POST,	                   
-		                "/auth/forgot-password"
-		            ).permitAll()
-	                .requestMatchers(
-	  		            HttpMethod.POST,	                   
-	  		            "/auth/reset-password"
-	  		        ).permitAll()
-	                .requestMatchers("/patient/me").authenticated()
-	                .anyRequest().authenticated()
-	            )
+	            	    .requestMatchers(
+	            	        HttpMethod.GET,
+	            	        "/especialities/**"
+	            	    ).permitAll()
+
+	            	    .requestMatchers(
+	            	        HttpMethod.GET,
+	            	        "/coupons/validate/**"
+	            	    ).permitAll()
+
+	            	    .requestMatchers(
+	            	        HttpMethod.GET,
+	            	        "/patient/first-consultation/*/name"
+	            	    ).permitAll()
+
+	            	    .requestMatchers(
+	            	        HttpMethod.GET,
+	            	        "/payments/consultation-amount"
+	            	    ).permitAll()
+
+	            	    .requestMatchers(
+	            	        HttpMethod.POST,
+	            	        "/patient/registersessions"
+	            	    ).permitAll()
+
+	            	    .requestMatchers(
+	            	        HttpMethod.POST,
+	            	        "/payments/checkout"
+	            	    ).permitAll()
+
+	            	    .requestMatchers(
+	            	        HttpMethod.POST,
+	            	        "/webhooks/mercadopago"
+	            	    ).permitAll()
+
+	            	    .requestMatchers(
+	            	        HttpMethod.POST,
+	            	        "/auth/login"
+	            	    ).permitAll()
+
+	            	    .requestMatchers(
+	            	        HttpMethod.POST,
+	            	        "/auth/forgot-password"
+	            	    ).permitAll()
+
+	            	    .requestMatchers(
+	            	        HttpMethod.POST,
+	            	        "/auth/reset-password"
+	            	    ).permitAll()
+
+	            	    .requestMatchers("/patient/me").authenticated()
+
+	            	    .anyRequest().authenticated()
+	            	)
 
 	            .oauth2ResourceServer(oauth2 ->
 	                oauth2.jwt(Customizer.withDefaults())
