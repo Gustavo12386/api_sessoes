@@ -83,9 +83,21 @@ public class SecurityConfig {
 	                    "/especialities/**"
 	                ).permitAll()
 	                .requestMatchers(
+			                HttpMethod.GET,
+			               "/coupons/validate/{couponCode}")
+	                .permitAll()
+	                .requestMatchers(
 	                    HttpMethod.POST,
 	                    "/patient/registersessions"
 	                ).permitAll()
+	                .requestMatchers(
+		                HttpMethod.POST,
+		               "/payments/checkout")
+	                .permitAll()
+	                .requestMatchers(
+			                HttpMethod.POST,
+			               "/webhooks/mercadopago")
+	                .permitAll()	               
 	                .requestMatchers(
 	                    HttpMethod.POST,	                   
 	                    "/auth/login"
